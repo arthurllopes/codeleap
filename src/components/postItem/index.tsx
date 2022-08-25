@@ -10,16 +10,17 @@ export type PostProps = {
     content: string 
 }
 type Props = {
-    item: PostProps
+    item: PostProps,
+    setModal: any
 }
 const user = 'arthur'
-const PostItem = ({item}: Props) => {
+const PostItem = ({item, setModal}: Props) => {
   return (
     <div className="post-item">
         <div className="post-header">
             <h2>{item.title}</h2>
             {user === item.username &&
-                <MyPostOptions  />
+                <MyPostOptions setModal={setModal} />
             }
         </div>
         <div className="post-content">

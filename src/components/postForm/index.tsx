@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './style.css'
-const PostForm = () => {
+const PostForm = ({title, buttonText}: {title: string, buttonText: string}) => {
   const [post, setPost] = useState({title: '', content: ''})
   const [error, setError] = useState('')
 
@@ -18,7 +18,7 @@ const PostForm = () => {
   return (
     <div className="form-container">
         <div>
-          <h2>What's on your mind?</h2>
+          <h2>{title}</h2>
         </div>
         <div className="input-field">
           <label>Title</label>
@@ -43,7 +43,7 @@ const PostForm = () => {
         }
         <div className='btn-div'>
           <button className={`btn ${(post.title && post.content) ? 'active' : 'disabled' }`} onClick={handleSubmit}>
-            CREATE
+            {buttonText}
           </button>
         </div>
     </div>

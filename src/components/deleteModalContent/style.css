@@ -1,0 +1,13 @@
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 30px 20px;
+    background-color: #fff;
+}
+.options {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 16px;
+}
