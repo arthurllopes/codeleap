@@ -1,4 +1,6 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
 import MyPostOptions from '../myPostOptions'
 import './style.css'
 
@@ -12,13 +14,13 @@ export type PostProps = {
 type Props = {
     item: PostProps,
 }
-const user = 'arthur'
 const PostItem = ({item}: Props) => {
+    const {username} = useSelector((state: RootState) => state.posts)
   return (
     <div className="post-item">
         <div className="post-header">
             <h2>{item.title}</h2>
-            {user === item.username &&
+            {username === item.username &&
                 <MyPostOptions post={item} />
             }
         </div>

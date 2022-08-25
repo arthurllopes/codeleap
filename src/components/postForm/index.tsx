@@ -14,6 +14,7 @@ const PostForm = ({title, buttonText, onSubmit}: {title: string, buttonText: str
   const handleSubmit = () => {
     if (post.title && post.content) {
       onSubmit(post)
+      setPost({title: '', content: ''})
       setError('')
     } else {
       setError('Todos os campos são obrigatórios')
@@ -31,7 +32,7 @@ const PostForm = ({title, buttonText, onSubmit}: {title: string, buttonText: str
             type="text"
             placeholder='Hello World'
             onChange={handleChange}
-            defaultValue={(modal as any)?.post.title || ''}
+            value={post.title}
           />
         </div>
         <div className="input-field">
@@ -41,7 +42,8 @@ const PostForm = ({title, buttonText, onSubmit}: {title: string, buttonText: str
             placeholder='Content here'
             rows={6}
             onChange={handleChange}
-            defaultValue={(modal as any)?.post.content || ''}
+            //defaultValue={(modal as any)?.post.content || ''}
+            value={post.content}
           /> 
         </div>
         {error && 
