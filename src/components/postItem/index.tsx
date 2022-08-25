@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import TimeAgo from 'timeago-react'
 import { RootState } from '../../redux/store'
 import MyPostOptions from '../myPostOptions'
 import './style.css'
@@ -27,7 +28,9 @@ const PostItem = ({item}: Props) => {
         <div className="post-content">
             <div className="post-info">
                 <p>@{item.username}</p>
-                <div>25 minutes ago</div>   
+                <div>
+                    <TimeAgo datetime={item.created_datetime} />
+                </div>   
             </div>
             <div>
                 <p>{item.content}</p>
