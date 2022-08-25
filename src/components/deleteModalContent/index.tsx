@@ -1,9 +1,13 @@
 import React from 'react'
+import { deletePost, setModal } from '../../redux/posts'
+import { useTypedDispatch } from '../../redux/store'
 import './style.css'
 
 const DeleteModalContent = () => {
-  const handleCloseModal = () => {}
-  const handleDeletePost = () => {}
+  const dispatch = useTypedDispatch()
+  
+  const handleCloseModal = () => dispatch(setModal(null))
+  const handleDeletePost = () => dispatch(deletePost())
   return (
     <div className='modal-content'>
       <div>

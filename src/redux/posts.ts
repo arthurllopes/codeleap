@@ -14,7 +14,7 @@ const slice = createSlice({
         setData(state: any, action: PayloadAction<PostProps[]>){
             state.data = action.payload
         },
-        setModal(state: any, action: PayloadAction<{type: string, post: PostProps}>){
+        setModal(state: any, action: PayloadAction<{type: string, post: PostProps} | null>){
             state.modal = action.payload
         },
         
@@ -27,7 +27,7 @@ export const userLogin = (username: string): ThunkAction<void, RootState, unknow
     localStorage.setItem('username', username)
 }
 
-export const getData = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
+export const getPosts = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
     try {
         const response = await api.get('')
         const {data, status} = response
@@ -36,20 +36,19 @@ export const getData = (): ThunkAction<void, RootState, unknown, AnyAction> => a
     } catch (error) {}
 }
 export const createPost = (post: {title: string, content: string}): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
-    const postList = getState().posts.data
+    const {data, username} = getState().posts
+    const payload = {username, ...post}
     try {
-        const response = await api.post('', )
-        const {data, status} = response
-        if (status !== 200) {}
-        dispatch(setData([data, ...postList]))
+        const response = await api.post('', payload)
+        //if (response.status !== 200) {}
+        dispatch(setData([response.data, ...data]))
     } catch (error) {}
 }
 export const editPost = (post: {title: string, content: string}): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
-    const {username, modal, data} = getState().posts
-    const ID = (modal as any)?.item?.id
-    const payload = {username, ...post}
+    const { modal, data} = getState().posts
+    const ID = (modal as any)?.post?.id
     try {
-        const response = await api.put(`${ID}`, payload)
+        const response = await api.patch(`${ID}/`, post)
         const {status} = response
         if (status !== 200) {}
         const updatedList = (data as PostProps[]).map(item => {
@@ -58,15 +57,21 @@ export const editPost = (post: {title: string, content: string}): ThunkAction<vo
         })
         dispatch(setData(updatedList))
     } catch (error) {}
+    finally {
+        dispatch(setModal(null))
+    }
 }
 export const deletePost = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch, getState) => {
     const {modal, data} = getState().posts
-    const ID = (modal as any)?.item?.id
+    const ID = (modal as any)?.post?.id
     try {
-        await api.delete(`${ID}`)
+        await api.delete(`${ID}/`)
         const filteredData = (data as PostProps[]).filter(item => item.id !== ID)
         dispatch(setData(filteredData))
     } catch (error) {}
+    finally {
+        dispatch(setModal(null))
+    }
 }
 
 

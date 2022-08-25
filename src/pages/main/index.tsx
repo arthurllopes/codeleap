@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import DeleteModalContent from '../../components/deleteModalContent'
 import EditModalContent from '../../components/editModalContent'
 import Header from '../../components/header'
 import ModalContainer from '../../components/modalContainer'
 import PostForm from '../../components/postForm'
 import PostItem, { PostProps } from '../../components/postItem'
-import api from '../../services/api'
+import { createPost, getPosts } from '../../redux/posts'
+import { RootState, useTypedDispatch } from '../../redux/store'
 import './style.css'
 
 const MainPage = () => {
-    const [modal, setModal] = useState('')
-    const [postList, setPostList] = useState<PostProps[]>([])
+    const dispatch = useTypedDispatch()
+    const {data, modal} = useSelector((state: RootState) => state.posts)
+    
     const handleCreatePost = async (post: {title: string, content: string}) => {
-        const response = await api.post('', {
-            username: 'jonas',
-            ...post
-        })
-        const {data, status} = response
-        setPostList([data, ...postList])
+        dispatch(createPost(post))
     }
 
     useEffect(() => {
-        const getData = async () => {
-            const response = await api.get('')
-            const {data, status} = response
-            setPostList(data.results)
-        }
-        getData()
-    }, [])
+        dispatch(getPosts())
+    }, [dispatch])
             
   return (
     <>
@@ -37,14 +30,14 @@ const MainPage = () => {
                 <PostForm title="What's on your mind?" buttonText="CREATE" onSubmit={handleCreatePost}/>
             </div>
             <div className="posts-list">
-                {postList?.map(item => (
-                    <PostItem key={item.id} item={item} setModal={setModal}/>
+                {(data as PostProps[])?.map(item => (
+                    <PostItem key={item.id} item={item} />
                 ))}
             </div>
         </main>
         {modal && 
-            <ModalContainer setModal={setModal}>
-                {modal === 'delete' ? <DeleteModalContent /> : <EditModalContent />}
+            <ModalContainer>
+                {(modal as {type: string})?.type === 'delete' ? <DeleteModalContent /> : <EditModalContent />}
             </ModalContainer>
         }
     </>

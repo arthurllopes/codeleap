@@ -1,10 +1,13 @@
 import React, { ReactNode } from 'react'
+import { setModal } from '../../redux/posts'
+import { useTypedDispatch } from '../../redux/store'
 import './style.css'
-const ModalContainer = ({ children, setModal }: { children: ReactNode, setModal: any}) => {
+const ModalContainer = ({ children }: { children: ReactNode}) => {
+  const dispatch = useTypedDispatch()
   function handleOutsideClick (event: React.MouseEvent){
     if (event.target === event.currentTarget) {
-      setModal('')
       //FECHAR MODAL
+      dispatch(setModal(null))
     }
   }
   return (

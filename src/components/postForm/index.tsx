@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
 import './style.css'
 const PostForm = ({title, buttonText, onSubmit}: {title: string, buttonText: string, onSubmit: ({title, content}: {title: string, content: string}) => void}) => {
-  const [post, setPost] = useState({title: '', content: ''})
+  const {modal} = useSelector((state: RootState) => state.posts)
+  const [post, setPost] = useState({title: (modal as any)?.post.title || '', content: (modal as any)?.post.content || ''})
   const [error, setError] = useState('')
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -28,6 +31,7 @@ const PostForm = ({title, buttonText, onSubmit}: {title: string, buttonText: str
             type="text"
             placeholder='Hello World'
             onChange={handleChange}
+            defaultValue={(modal as any)?.post.title || ''}
           />
         </div>
         <div className="input-field">
@@ -37,6 +41,7 @@ const PostForm = ({title, buttonText, onSubmit}: {title: string, buttonText: str
             placeholder='Content here'
             rows={6}
             onChange={handleChange}
+            defaultValue={(modal as any)?.post.content || ''}
           /> 
         </div>
         {error && 
