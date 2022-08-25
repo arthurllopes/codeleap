@@ -1,0 +1,13 @@
+.wrapper {
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.signup-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    background-color: #fff;
+}
