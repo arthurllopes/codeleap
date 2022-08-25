@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { userLogin } from '../../redux/posts'
+import { useTypedDispatch } from '../../redux/store'
 import './style.css'
 const SignUpPage = () => {
   const navigate = useNavigate(),
-  [username, setUsername] = useState('')
+  [username, setUsername] = useState(''),
+  dispatch = useTypedDispatch()
 
   const handleSubmit = () => {
-    navigate('/main')
+    if (username) {
+      dispatch(userLogin(username))
+      navigate('/main')
+    }
   }
   return (
     <main className='wrapper'>

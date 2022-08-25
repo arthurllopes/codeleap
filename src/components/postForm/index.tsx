@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './style.css'
-const PostForm = ({title, buttonText}: {title: string, buttonText: string}) => {
+const PostForm = ({title, buttonText, onSubmit}: {title: string, buttonText: string, onSubmit: ({title, content}: {title: string, content: string}) => void}) => {
   const [post, setPost] = useState({title: '', content: ''})
   const [error, setError] = useState('')
 
@@ -10,6 +10,7 @@ const PostForm = ({title, buttonText}: {title: string, buttonText: string}) => {
   }
   const handleSubmit = () => {
     if (post.title && post.content) {
+      onSubmit(post)
       setError('')
     } else {
       setError('Todos os campos são obrigatórios')
