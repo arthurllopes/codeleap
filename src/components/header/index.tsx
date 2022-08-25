@@ -1,9 +1,10 @@
 import React from 'react'
+import './style.css'
 
 const Header = () => {
   return (
     <header>
-        CodeLeap Network
+      CodeLeap Network
     </header>
   )
 }

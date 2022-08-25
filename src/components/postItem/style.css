@@ -1,0 +1,31 @@
+.post-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    border: .6px solid #aaa;
+    margin: 8px 0;
+}
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background-color: #000;
+
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+.post-content {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 24px;
+}
+.post-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: #aaa;
+}
